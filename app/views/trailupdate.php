@@ -59,7 +59,7 @@
 		<?php if ($history) { ?>
 		<h3>Past Updates for this Trail</h3>
 		<?php foreach ($history as $log) { ?>
-                <p><?=$trail->status?> (<?=date('M j Y @ g:ia', strtotime($log->modifieddate))?>)</p>
+                <p><?=ViewUtils::statusToText($trail->status)?> (<?=date('M j Y @ g:ia', strtotime($log->modifieddate))?>)</p>
 		<blockquote style="border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=htmlspecialchars($log->conditions)?></blockquote>
 		<?php } ?>
 		<?php } ?>
