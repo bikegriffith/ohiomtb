@@ -16,6 +16,10 @@ Route::get('/', function() {
 	return View::make('list', array('trails'=>$results, 'tab'=>'all'));
 });
 
+Route::get('/trail-conditions', function() {
+	return Redirect::to('/'); // SEO backward compatability with old Flask app on webfaction
+});
+
 Route::get('/about', function() {
 	return View::make('about');
 });
