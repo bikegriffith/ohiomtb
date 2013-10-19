@@ -1124,6 +1124,7 @@ h2.jqm-home-widget {
 		margin: 0;
 		padding: 20px;
 		bottom: 50%;
+		font-size:1.2em;
 	}
 	.my-page .ui-listview .ui-li-desc {
 		margin: 0;

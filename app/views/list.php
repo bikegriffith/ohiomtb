@@ -36,6 +36,7 @@
 		<?php } else { ?>
             	<img alt="Status is too old, needs an update" src="/img/statuses/old.png">
             	<h2><?=$trail->name?></h2>
+		<p>&nbsp;</p>
                 <p class="ui-li-aside" style="color:#b00"><?=ViewUtils::time_since($trail->modifieddate)?> ago</p>
 		<?php } ?>
                 </a></li>
@@ -57,6 +58,17 @@
     </div><!-- /footer -->
 
 </div><!-- /page -->
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6258382-8']);
+_gaq.push(['_setDomainName', '.ohiomtb.com']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
 </body>
 </html>
 
