@@ -20,13 +20,18 @@
 	<div data-role="content">
 	<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fohiomtb&amp;width=200&amp;height=50&amp;colorscheme=dark&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;send=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:50px; margin:15px 10px 0 0; float:right;" allowTransparency="true"></iframe>	
 
+	<?php if (Session::get('message')) { ?>
+	<br style="clear:both;">
+	<div style="padding:20px;margin:15px;border:#0b0; background:#a8e6af; color:#030;"><?=Session::get('message')?></div>
+	<?php } ?>
+
         <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Search for trails...">
 	<?php foreach($trails as $trail) { ?>
         	<li><a href="/trails/<?=$trail->slug?>">
 		<?php if ($trail->modifieddate > date('Y-m-d H:i:s', strtotime('-4 WEEKS'))) { ?>
             	<img alt="Trail conditions are <?=ViewUtils::statusToText($trail->status)?>" src="/img/statuses/<?=$trail->status?>.png">
             	<h2><?=$trail->name?></h2>
-                <p><?=ViewUtils::truncate_if_necessary($trail->conditions, 40)?></p>
+                <p><?=htmlspecialchars(ViewUtils::truncate_if_necessary($trail->conditions, 40))?></p>
                 <p class="ui-li-aside"><?=ViewUtils::time_since($trail->modifieddate)?> ago</p>
 		<?php } else { ?>
             	<img alt="Status is too old, needs an update" src="/img/statuses/old.png">

@@ -25,10 +25,10 @@
 		<strong><em>This trail hasn't been updated in <?=ViewUtils::time_since($trail->modifieddate)?>.  Do the world a favor and tell us how it was the last time you rode there.</em></strong>
 		</div>
                 <p>Last reported as <?=ViewUtils::statusToText($trail->status)?>, but that was <?=ViewUtils::time_since($trail->modifieddate)?> ago.</p>
-		<blockquote style="opacity:0.5;border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=$trail->conditions?></blockquote>
+		<blockquote style="opacity:0.5;border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=htmlspecialchars($trail->conditions)?></blockquote>
 	<?php } else { ?>
                 <h3>Reported as <?=ViewUtils::statusToText($trail->status)?> <?=ViewUtils::time_since($trail->modifieddate)?> ago</h3>
-		<blockquote style="border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=$trail->conditions?></blockquote>
+		<blockquote style="border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=htmlspecialchars($trail->conditions)?></blockquote>
 	<?php } ?>
 
 	<a href="/trails/<?=$trail->slug?>/update" data-role="button">Update Trail Conditions</a>

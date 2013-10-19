@@ -28,11 +28,10 @@ Route::get('/recent-updates', function() {
 
 Route::get('/trails/{slug}', function($slug) {
 	$results = DB::select("SELECT * FROM trails WHERE slug = ?", array($slug));
-	$history = DB::select("SELECT * FROM statushistory WHERE slug = ? ORDER BY modifieddate DESC LIMIT 10", array($slug));
 	if (!$results) {
 		return App::abort(404, 'Trail not found');
 	}
-	return View::make('trail', array('trail'=>$results[0], 'history'=>$history));
+	return View::make('trail', array('trail'=>$results[0]));
 });
 
 Route::get('/trails/{slug}/update', function($slug) {
@@ -46,9 +45,19 @@ Route::get('/trails/{slug}/update', function($slug) {
 
 Route::post('/trails/{slug}/update', function($slug) {
 	$results = DB::select("SELECT * FROM trails WHERE slug = ?", array($slug));
-	$history = DB::select("SELECT * FROM statushistory WHERE slug = ? ORDER BY modifieddate DESC LIMIT 10", array($slug));
 	if (!$results) {
 		return App::abort(404, 'Trail not found');
 	}
-	return View::make('trail', array('trail'=>$results[0], 'history'=>$history));
+	$trail = $results[0];
+
+	// Create History Entry
+	DB::insert("INSERT INTO statushistory (slug, status, conditions, modifieddate, modifiedby) VALUES (?, ?, ?, ?, ?)",
+		array($trail->slug, $trail->status, $trail->conditions, $trail->modifieddate, $trail->modifiedby));
+
+	// Update current status
+	DB::update("UPDATE trails SET status = ?, conditions = ?, modifieddate = NOW(), modifiedby = ? WHERE slug = ?",
+		array(Input::get('status'), Input::get('description'), Request::server('REMOTE_ADDR'), $slug));
+
+	Session::flash('message', 'Thank you for the update!');
+	return Redirect::to('/');
 });

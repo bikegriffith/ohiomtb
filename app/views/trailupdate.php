@@ -21,7 +21,7 @@
 	<div data-role="content">
             	<h2><?=$trail->name?></h2>
 
-		<form action="." method="post">
+		<form action="/trails/<?=$trail->slug?>/update" method="post" data-ajax="false">
 
 		<div data-role="fieldcontain">
 		<fieldset data-role="controlgroup">
@@ -46,7 +46,7 @@
 		<div data-role="fieldcontain">
 		<fieldset data-role="controlgroup">
 		<legend><label for="description">Description:</label></legend>
-		<textarea name="description" id="description"><?=$trail->conditions?></textarea>
+		<textarea name="description" id="description"><?=htmlspecialchars($trail->conditions)?></textarea>
 	    	</fieldset>
 		</div>
 
@@ -60,7 +60,7 @@
 		<h3>Past Updates for this Trail</h3>
 		<?php foreach ($history as $log) { ?>
                 <p><?=$trail->status?> (<?=date('M j Y @ g:ia', strtotime($log->modifieddate))?>)</p>
-		<blockquote style="border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=$log->conditions?></blockquote>
+		<blockquote style="border-left:3px solid #ccc;margin-left:20px;padding-left:10px;"><?=htmlspecialchars($log->conditions)?></blockquote>
 		<?php } ?>
 		<?php } ?>
 

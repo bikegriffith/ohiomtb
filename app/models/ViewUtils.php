@@ -44,7 +44,7 @@ public static function statusToText($status) {
 		40 => 'Wet (stay off)',
 		50 => 'Closed',
 	);
-	return $map[$status];
+	return isset($map[$status]) ? $map[$status] : '-';
 }
 
 }
