@@ -1041,6 +1041,9 @@ h2.jqm-home-widget {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 }
+.my-page .ui-li-aside {
+	margin:3em 0 0;
+}
 .my-page .ui-header {
 	color: #afcdee;
 	text-transform:uppercase;
@@ -1059,8 +1062,15 @@ h2.jqm-home-widget {
 	border-color: #222;
 }
 
+#facebooklikeframe {
+	display:none; /*start hidden, only show on desktop*/
+}
+
 /* First breakpoint is 768px. 3 column layout. Tiles 250x250 pixels at the breakpoint. */
 @media all and (min-width: 768px){
+	#facebooklikeframe {
+		display:block; /*start hidden, only show on desktop*/
+	}
 	.my-page .ui-content {
 		padding: 9px;
 	}
@@ -1155,6 +1165,7 @@ h2.jqm-home-widget {
 	}
 	/* ui-li-aside has class .ui-li-desc as well so we have to override some things. */
 	.my-page .ui-listview .ui-li-desc.ui-li-aside {
+		margin:0;
 		padding: 2px 10px;
 		width: auto;
 		min-height: 0;
