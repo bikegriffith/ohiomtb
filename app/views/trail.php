@@ -15,11 +15,15 @@
 
 	<div data-role="header">
 		<h1><?=$trail->name?></h1>
-		<a href="grid-listview.html" data-shadow="false" data-iconshadow="false" data-icon="arrow-l" data-iconpos="left" data-rel="back" data-ajax="false">Back</a>
+		<a href="/" data-shadow="false" data-iconshadow="false" data-icon="arrow-l" data-iconpos="left" data-rel="back" data-ajax="false">Home</a>
 	</div><!-- /header -->
 	
 	<div data-role="content">
-        <h2>Trail Conditions at <?=$trail->name?></h2>
+        <h2>Trail Conditions at <?=$trail->name?>
+		<?php if ($trail->citystate) { ?>
+		<span style="opacity:0.6;font-weight:normal;">(<?=$trail->citystate?>)</span>
+		<?php } ?>
+	</h2>
 	<?php if ($trail->modifieddate < date('Y-m-d H:i:s', strtotime('-4 WEEKS'))) { ?>
 		<div style="border:1px solid #b00; background:#ECD0A6; color:#300; text-shadow:none; padding:20px;">
 		<strong><em>This trail hasn't been updated in <?=ViewUtils::time_since($trail->modifieddate)?>.  Do the world a favor and tell us how it was the last time you rode there.</em></strong>
@@ -33,11 +37,28 @@
 
 	<a href="/trails/<?=$trail->slug?>/update" data-role="button">Update Trail Conditions</a>
 
-	<hr>
+	<hr style="margin:40px 10px">
 
-	<h3>Other information about mountain biking at <?=$trail->name?></h3>
-	<p><em>Coming Soon!</em></p>
-                
+	<h3>Mountain biking at <?=$trail->name?></h3>
+
+	<?php if ($trail->overview_html) { ?>
+	<?=$trail->overview_html?>
+	<?php } else { ?>
+	<em style="opacity:0.4">Trail overview not yet added.  Check back later for more details, or email Mike (bikegriffith at gmail dot com) to help add content such as GPS coordinates and directions to trailhead, overview of trails, and website links.</em>
+	<?php } ?>
+
+	<ul>
+	<?php if ($trail->website) { ?>
+		<li><a href="<?=$trail->website?>" target="_blank"><?=$trail->name?>'s Website</a></li>
+	<?php } ?>
+	<?php if ($trail->websitemtbr) { ?>
+		<li><a href="<?=$trail->websitemtbr?>" target="_blank"><?=$trail->name?>'s on MTBR</a></li>
+	<?php } ?>
+	<?php if ($trail->websitespokejunkies) { ?>
+		<li><a href="<?=$trail->websitespokejunkies?>" target="_blank"><?=$trail->name?>'s on SpokeJunkies</a></li>
+	<?php } ?>
+	</ul>
+
     </div><!-- /content -->
     
 </div><!-- /page -->

@@ -15,7 +15,7 @@
 
 	<div data-role="header">
 		<h1>Update <?=$trail->name?></h1>
-		<a href="grid-listview.html" data-shadow="false" data-iconshadow="false" data-icon="arrow-l" data-iconpos="left" data-rel="back" data-ajax="false">Back</a>
+		<a href="/trails/<?=$trail->slug?>" data-shadow="false" data-iconshadow="false" data-icon="arrow-l" data-iconpos="left" data-rel="back" data-ajax="false">Trail</a>
 	</div><!-- /header -->
 	
 	<div data-role="content">
