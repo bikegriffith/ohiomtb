@@ -47,5 +47,14 @@ public static function statusToText($status) {
 	return isset($map[$status]) ? $map[$status] : '-';
 }
 
+public static function mathProblems() {
+	return array(
+		array('a224423', "What's 5 plus 3?", 8),
+		array('4asfsdf', "What's 2 times 2?", 4),
+		array('j35k35h', "What's 7 minus 1?", 6),
+		array('euy44h2', "What's 1 plus 1 plus 1?", 3),
+	);
+}
+
 }
 ?>

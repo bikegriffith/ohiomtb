@@ -6,3 +6,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Ban IP addresses
+# writing a bunch of 'See goo.gl/DJqlP for info'
+Deny from 199.115.112.90

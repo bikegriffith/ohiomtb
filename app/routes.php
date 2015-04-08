@@ -44,7 +44,9 @@ Route::get('/trails/{slug}/update', function($slug) {
 	if (!$results) {
 		return App::abort(404, 'Trail not found');
 	}
-	return View::make('trailupdate', array('trail'=>$results[0], 'history'=>$history));
+	$math = ViewUtils::mathProblems();
+	$math = $math[rand(0, count($math) - 1)];
+	return View::make('trailupdate', array('trail'=>$results[0], 'history'=>$history, 'math'=>$math));
 });
 
 Route::post('/trails/{slug}/update', function($slug) {
@@ -53,6 +55,20 @@ Route::post('/trails/{slug}/update', function($slug) {
 		return App::abort(404, 'Trail not found');
 	}
 	$trail = $results[0];
+	
+	// Validate math problem
+	$valid = FALSE;
+	foreach(ViewUtils::mathProblems() as $math) {
+		if ($math[0] == Input::get('mathproblem')) {
+			if (intval($math[2]) == intval(Input::get('mathanswer'))) {
+				$valid = TRUE;
+			}
+		}
+	}
+	if (!$valid) {
+		Session::flash('message', 'Incorrect answer.  Are you a bot?');
+		return Redirect::to('/');
+	}
 
 	// Create History Entry
 	DB::insert("INSERT INTO statushistory (slug, status, conditions, modifieddate, modifiedby) VALUES (?, ?, ?, ?, ?)",

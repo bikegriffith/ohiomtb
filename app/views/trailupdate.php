@@ -50,6 +50,15 @@
 	    	</fieldset>
 		</div>
 
+		<div data-role="fieldcontain">
+		<fieldset data-role="controlgroup">
+		<legend><label for="description">Math Problem: <small><em>Are you human?</em></small></label></legend>
+		<strong><?=$math[1]?></strong><br>
+		<input name="mathanswer" id="mathanswer">
+		<input type="hidden" name="mathproblem" id="mathproblem" value="<?=$math[0]?>">
+	    	</fieldset>
+		</div>
+
 		<input type="submit" data-role="button" value="Submit Update">
 
 		</form>
@@ -80,4 +89,3 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 </script>
 </body>
 </html>
-
