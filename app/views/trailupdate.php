@@ -21,6 +21,7 @@
 	<div data-role="content">
             	<h2><?=$trail->name?></h2>
 
+		<script src='https://www.google.com/recaptcha/api.js'></script>
 		<form action="/trails/<?=$trail->slug?>/update" method="post" data-ajax="false">
 
 		<div data-role="fieldcontain">
@@ -52,10 +53,8 @@
 
 		<div data-role="fieldcontain">
 		<fieldset data-role="controlgroup">
-		<legend><label for="description">Math Problem: <small><em>Are you human?</em></small></label></legend>
-		<strong><?=$math[1]?></strong><br>
-		<input name="mathanswer" id="mathanswer">
-		<input type="hidden" name="mathproblem" id="mathproblem" value="<?=$math[0]?>">
+		<legend><label for="description">Spam Prevention: <small><em>Are you human?</em></small></label></legend>
+		<div class="g-recaptcha" data-sitekey="6Lfw99MSAAAAAMw_XwmNMhtuWQHy5ghBPqBL6cjW"></div>
 	    	</fieldset>
 		</div>
 

@@ -55,18 +55,28 @@ Route::post('/trails/{slug}/update', function($slug) {
 		return App::abort(404, 'Trail not found');
 	}
 	$trail = $results[0];
+
+	$remoteIP = Request::server('REMOTE_ADDR');#Request::getClientIp();
 	
-	// Validate math problem
-	$valid = FALSE;
-	foreach(ViewUtils::mathProblems() as $math) {
-		if ($math[0] == Input::get('mathproblem')) {
-			if (intval($math[2]) == intval(Input::get('mathanswer'))) {
-				$valid = TRUE;
-			}
-		}
+	// Validate recaptcha
+	$url = 'https://www.google.com/recaptcha/api/siteverify';
+	$myvars = 'secret=6Lfw99MSAAAAAPsJb8nOtW9FCi4x3xDmyyY1Q1TE' .
+		  '&response=' . Input::get('g-recaptcha-response') .
+		  '&remoteip=' . $remoteIP;
+	$ch = curl_init( $url );
+	curl_setopt( $ch, CURLOPT_POST, 1);
+	curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+	curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt( $ch, CURLOPT_HEADER, 0);
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+	$response = json_decode(curl_exec($ch), true);
+	if (!$response['success']) {
+		Session::flash('message', 'Trail not updated. Are you a bot?');
+		return Redirect::to('/');
 	}
-	if (!$valid) {
-		Session::flash('message', 'Incorrect answer.  Are you a bot?');
+
+	if (str_contains(Input::get('description'), 'http') || str_contains(Input::get('description'), 'goo.gl')) {
+		Session::flash('message', 'Trail not updated. Links not allowed in an effort to thwart spam.  Sorry if you are a human.');
 		return Redirect::to('/');
 	}
 
@@ -76,7 +86,7 @@ Route::post('/trails/{slug}/update', function($slug) {
 
 	// Update current status
 	DB::update("UPDATE trails SET status = ?, conditions = ?, modifieddate = NOW(), modifiedby = ? WHERE slug = ?",
-		array(Input::get('status'), Input::get('description'), Request::server('REMOTE_ADDR'), $slug));
+		array(Input::get('status'), Input::get('description'), $remoteIP, $slug));
 
 	Session::flash('message', 'Thank you for the update!');
 	return Redirect::to('/');
