@@ -1,12 +1,41 @@
 import Parse from 'parse';
 
-var Trails = Parse.Object.extend("Trails");
+
+const Trails = Parse.Object.extend("Trails");
+
+
+function parseTrailsToObj(result) {
+  return result.map((r) => {
+    return {
+      slug: r.get('slug'),
+      name: r.get('name'),
+      conditions: r.get('conditions'),
+      overviewHtml: r.get('overviewHtml'),
+      lastModified: r.get('updatedAt'),
+      statusCode: r.get('statusCode'),
+      statusText: statusCodeToText(r.get('statusCode'))
+    };
+  });
+}
+
+function statusCodeToText(code) {
+  return {
+    10: 'Awesome',
+    15: 'Dry',
+    20: 'Mostly Dry',
+    25: 'Frozen',
+    30: 'Sloppy (wet in some places)',
+    40: 'Wet (stay off)',
+    50: 'Closed'
+  }[code];
+}
+
 
 class Data {
   getTrails() {
     var query = new Parse.Query(Trails);
     //query.equalTo("slug", "west-branch");
-    return query.find();
+    return query.find().then((result) => parseTrailsToObj(result));
   }
 
   __test() {
@@ -18,6 +47,6 @@ class Data {
   }
 }
 
-var data = new Data();
+const data = new Data();
 
 export default data;

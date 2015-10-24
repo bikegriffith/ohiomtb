@@ -86,9 +86,6 @@ let fetchData = function(routes, params) {
 }
 
 // Start the router
-console.log('running');
-console.log('routes are', routes);
-
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 let history = createBrowserHistory()
 ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById(DOM_APP_EL_ID));
