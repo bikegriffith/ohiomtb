@@ -11,7 +11,7 @@ export default class LoggedInRouter extends React.Component {
         <div id="navigation">
           <header>
             <ul>
-              <li><Link to="/">Home</Link></li>
+              <li><Link to="/">OhioMTB</Link></li>
             </ul>
           </header>
         </div>

@@ -5,7 +5,7 @@
   "main": "src/main.jsx",
   "scripts": {
     "postinstall": "npm run build",
-    "start": "webpack-dev-server --config webpack.local.config.js",
+    "start": "webpack-dev-server --config webpack.local.config.js --inline --hot",
     "build": "webpack -p --config webpack.production.config.js",
     "clean": "rm build/app.js"
   },
