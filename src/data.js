@@ -7,6 +7,7 @@ const Trails = Parse.Object.extend("Trails");
 function parseTrailsToObj(result) {
   return result.map((r) => {
     return {
+      _parseObject: r,
       slug: r.get('slug'),
       name: r.get('name'),
       conditions: r.get('conditions'),
@@ -42,6 +43,12 @@ class Data {
     query.equalTo("slug", slug);
     return query.find().then((result) => parseTrailsToObj(result))
                        .then((trails) => trails[0]);
+  }
+
+  updateTrail(trail) {
+    let obj = trail._parseObject;
+    obj.set('conditions', trail.conditions);
+    return obj.save();
   }
 
   __test() {
