@@ -28,13 +28,8 @@ Parse.initialize(
 );
 
 
-// ID of the DOM element to mount app on
-const DOM_APP_EL_ID = "app";
-
-
 // Initialize routes depending on session
 let routes;
-
 if (Session.isLoggedIn()) {
   routes = LoggedInRouter.getRoutes();
 } else {
@@ -88,7 +83,7 @@ let fetchData = function(routes, params) {
 // Start the router
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 let history = createBrowserHistory()
-ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById(DOM_APP_EL_ID));
+ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById('app'));
 /*
 Router.run(routes, Router.HistoryLocation, function(Handler, state) {
   fetchData(state.routes, state.params).then((data) => {

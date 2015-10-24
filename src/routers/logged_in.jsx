@@ -2,6 +2,7 @@ import React from "react";
 import { Route, DefaultRoute, Link, IndexRoute } from "react-router";
 
 import HomePage from "../pages/home/page";
+import TrailPage from "../pages/trail/page";
 
 
 export default class LoggedInRouter extends React.Component {
@@ -25,6 +26,7 @@ export default class LoggedInRouter extends React.Component {
     return (
       <Route path="/" component={LoggedInRouter}>
         <IndexRoute component={HomePage} />
+        <Route path="trails/:slug" component={TrailPage} />
       </Route>
     );
   }

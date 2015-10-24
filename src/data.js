@@ -34,8 +34,14 @@ function statusCodeToText(code) {
 class Data {
   getTrails() {
     var query = new Parse.Query(Trails);
-    //query.equalTo("slug", "west-branch");
     return query.find().then((result) => parseTrailsToObj(result));
+  }
+
+  getTrail(slug) {
+    var query = new Parse.Query(Trails);
+    query.equalTo("slug", slug);
+    return query.find().then((result) => parseTrailsToObj(result))
+                       .then((trails) => trails[0]);
   }
 
   __test() {

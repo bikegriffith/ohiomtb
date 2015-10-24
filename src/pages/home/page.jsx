@@ -1,5 +1,4 @@
 import React from "react";
-import { getData } from "../../common/request";
 import styles from "./style.css";
 import FacebookLikeBox from "../../components/facebook/likebox.js";
 import data from "../../data";
@@ -46,9 +45,5 @@ export default class HomePage extends React.Component {
     return (
         <li key={trail.slug}><TrailCard trail={trail} /></li>
     );
-  }
-
-  static fetchData = function(params) {
-    return getData("/home");
   }
 }
