@@ -36,3 +36,4 @@ Contributions welcome! Fork the project, make some changes, and open a pull requ
 5. Show leaderboard (trail stewards?) of which users have updated the most
 6. Consider SEO implications of new architecture
 7. Migrate production MySQL DB to Parse and launch
+8. Write Ionic "native" apps for iOS and Android
