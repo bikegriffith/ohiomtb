@@ -2,6 +2,56 @@ import Parse from 'parse';
 
 
 const Trails = Parse.Object.extend("Trails");
+const TrailHistory = Parse.Object.extend("TrailHistory");
+
+
+class Data {
+  getTrails() {
+    var query = new Parse.Query(Trails);
+    return query.find().then((result) => parseTrailsToObj(result));
+  }
+
+  getTrail(slug) {
+    var query = new Parse.Query(Trails);
+    query.equalTo("slug", slug);
+    return query.find().then((result) => parseTrailsToObj(result))
+                       .then((trails) => trails[0]);
+  }
+
+  getHistory(slug) {
+    var query = new Parse.Query(TrailHistory);
+    query.equalTo("slug", slug);
+    query.descending("updatedAt");
+    query.limit(10);
+    return query.find().then((result) => parseTrailHistoryToObj(result));
+  }
+
+  updateTrail(trail) {
+    let obj = trail._parseObject;
+
+    // First, make a history entry to archive the current conditions
+    let history = new TrailHistory();
+    let p1 = history.save({
+      slug: trail.slug,
+      conditions: obj.get('conditions'),
+      statusCode: obj.get('statusCode')
+    });
+
+    // Then, update the main entry with the new conditions
+    obj.set('conditions', trail.conditions);
+    let p2 = obj.save();
+
+    return Promise.all([p1, p2]);
+  }
+
+  __test() {
+    var TestObject = Parse.Object.extend("TestObject");
+    var testObject = new TestObject();
+    testObject.save({foo: "bar"}).then(function(object) {
+        alert("parse worked!");
+    });
+  }
+}
 
 
 function parseTrailsToObj(result) {
@@ -19,6 +69,21 @@ function parseTrailsToObj(result) {
   });
 }
 
+
+function parseTrailHistoryToObj(result) {
+  return result.map((r) => {
+    return {
+      _parseObject: r,
+      slug: r.get('slug'),
+      conditions: r.get('conditions'),
+      lastModified: r.get('updatedAt'),
+      statusCode: r.get('statusCode'),
+      statusText: statusCodeToText(r.get('statusCode'))
+    };
+  });
+}
+
+
 function statusCodeToText(code) {
   return {
     10: 'Awesome',
@@ -32,34 +97,7 @@ function statusCodeToText(code) {
 }
 
 
-class Data {
-  getTrails() {
-    var query = new Parse.Query(Trails);
-    return query.find().then((result) => parseTrailsToObj(result));
-  }
-
-  getTrail(slug) {
-    var query = new Parse.Query(Trails);
-    query.equalTo("slug", slug);
-    return query.find().then((result) => parseTrailsToObj(result))
-                       .then((trails) => trails[0]);
-  }
-
-  updateTrail(trail) {
-    let obj = trail._parseObject;
-    obj.set('conditions', trail.conditions);
-    return obj.save();
-  }
-
-  __test() {
-    var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-    testObject.save({foo: "bar"}).then(function(object) {
-        alert("parse worked!");
-    });
-  }
-}
-
 const data = new Data();
+
 
 export default data;
