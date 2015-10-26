@@ -19,11 +19,10 @@ export default class HomePage extends React.Component {
 
   handleTrailsSuccess(trails) {
     this.setState({ trails: trails });
-    console.log('found trails', this.state.trails);
   }
 
   handleTrailsError(error) {
-    console.error('error loading trails', error);
+    console.error('Unable to load trails', error);
   }
 
   render() {

@@ -32,7 +32,6 @@ export default class TrailPage extends React.Component {
     console.error('Error loading trail', error);
   }
 
-
   handleUpdateClick() {
     let trail = this.state.trail;
     trail.conditions = this.refs.conditions.value;
@@ -50,7 +49,7 @@ export default class TrailPage extends React.Component {
         <button onClick={this.handleUpdateClick.bind(this)}>Update</button>
         <p>History</p>
         <ul>
-          {this.state.history.map((h) => <li>{h.lastModified.toString()} - {h.statusText}: {h.conditions}</li>)}
+          {this.state.history.map((h) => <li key={h.id}>{h.lastModified.toString()} - {h.statusText}: {h.conditions}</li>)}
         </ul>
       </Loader>
     );

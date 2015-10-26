@@ -34,22 +34,16 @@ class Data {
     let p1 = history.save({
       slug: trail.slug,
       conditions: obj.get('conditions'),
-      statusCode: obj.get('statusCode')
+      statusCode: obj.get('statusCode'),
+      user: Parse.User.current()
     });
 
     // Then, update the main entry with the new conditions
     obj.set('conditions', trail.conditions);
+    obj.set('user', Parse.User.current());
     let p2 = obj.save();
 
     return Promise.all([p1, p2]);
-  }
-
-  __test() {
-    var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-    testObject.save({foo: "bar"}).then(function(object) {
-        alert("parse worked!");
-    });
   }
 }
 
@@ -58,6 +52,7 @@ function parseTrailsToObj(result) {
   return result.map((r) => {
     return {
       _parseObject: r,
+      id: r.id,
       slug: r.get('slug'),
       name: r.get('name'),
       conditions: r.get('conditions'),
@@ -74,6 +69,7 @@ function parseTrailHistoryToObj(result) {
   return result.map((r) => {
     return {
       _parseObject: r,
+      id: r.id,
       slug: r.get('slug'),
       conditions: r.get('conditions'),
       lastModified: r.get('updatedAt'),
