@@ -5,8 +5,12 @@ class Session {
   }
 
   isLoggedIn() {
-    console.log(Parse.User.current());
     return Parse.User.current();
+  }
+
+  username() {
+    const user = Parse.User.current();
+    return (user && user.getUsername()) || null;
   }
 
   __testLink() {

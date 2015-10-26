@@ -10,7 +10,7 @@ export default class MainShell extends React.Component {
     super();
     this.state = {
       loggedIn: Session.isLoggedIn(),
-      username: null
+      username: Session.username()
     };
   }
 
@@ -48,21 +48,23 @@ export default class MainShell extends React.Component {
       success: (user) => {
         if (!user.existed()) {
           console.log("User signed up and logged in through Facebook!");
+          // Get real name from Facebook (not crazy ass scrambled token)
+          FB.api('/me', function(response) {
+            const facebookRealName = response.name;
+            Parse.User.current().save(
+              {username: facebookRealName}, {
+              success: function() {
+                self.setState({loggedIn: true, username: Session.username()}); 
+              },
+              error: function(error) {
+              }
+            })
+          });
         } else {
           console.log("User logged in through Facebook!");
+          self.setState({loggedIn: true, username: Session.username()}); 
         }
 
-        // Get real name from Facebook (not crazy ass scrambled token)
-        FB.api('/me', function(response) {
-          Parse.User.current().save(
-            {username: response.name}, {
-            success: function() {
-              self.setState({loggedIn: true, username: response.name}); 
-            },
-            error: function(error) {
-            }
-          })
-        });
       },
       error: function(user, error) {
         console.warn("User cancelled the Facebook login or did not fully authorize.");
