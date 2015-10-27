@@ -54,6 +54,7 @@ class Data {
 
     // Then, update the main entry with the new conditions
     obj.set('conditions', trail.conditions);
+    obj.set('statusCode', trail.statusCode);
     obj.set('user', Parse.User.current());
     let p2 = obj.save();
 
@@ -74,6 +75,8 @@ function parseTrailsToObj(result) {
       lastModified: r.get('updatedAt'),
       statusCode: r.get('statusCode'),
       statusText: statusCodeToText(r.get('statusCode')),
+      address: r.get('address'),
+      urls: r.get('urls'),
       getHeaderImage: () => r.get('headerImage')
     };
   });
