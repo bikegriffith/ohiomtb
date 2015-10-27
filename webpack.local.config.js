@@ -55,6 +55,11 @@ module.exports = {
   postcss: [
     require('autoprefixer'), // Automatically include vendor prefixes
     require('postcss-nested') // Enable nested rules, like in Sass
-  ]
+  ],
+
+  // webpack-dev-server options
+  devServer: {
+    historyApiFallback: true
+  }
 
 }

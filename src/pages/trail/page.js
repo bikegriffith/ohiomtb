@@ -1,6 +1,7 @@
 import React from "react";
 import data from "../../data";
 import TrailCard from "../../components/trail/card";
+import TrailImageHeader from "../../components/trail/imageheader";
 import Loader from "react-loader";
 
 
@@ -44,7 +45,7 @@ export default class TrailPage extends React.Component {
   render() {
     return (
       <Loader loaded={this.state.loaded}>
-        <h1>Trail: {this.state.trail.name}</h1>
+        <TrailImageHeader trail={this.state.trail} />
         <textarea ref="conditions" defaultValue={this.state.trail.conditions} />
         <button onClick={this.handleUpdateClick.bind(this)}>Update</button>
         <p>History</p>

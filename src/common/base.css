@@ -11,7 +11,6 @@ body {
 
 h1 {
   margin: 0;
-  color: #F97F85;
 }
 
 :global(#container) {
@@ -24,7 +23,7 @@ h1 {
 
   :global(#navigation) {
     padding: 10px 15px;
-    background-color: #F9E957;
+    background-color: #16233A;
 
     ul {
       list-style: none;
@@ -35,16 +34,23 @@ h1 {
         display: inline-block;
         font-size: 18px;
         font-weight: bold;
+        margin-right: 15px;
 
         a {
-          color: #555;
+          color: #fff;
           text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
-          }
         }
       }
     }
   }
 }
+
+  :global(.trailheader) {
+    background-size: cover;
+    min-height: 200px;
+    h1 {
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(0,0,0,0.5);
+    }
+  }

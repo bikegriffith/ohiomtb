@@ -26,6 +26,20 @@ class Data {
     return query.find().then((result) => parseTrailHistoryToObj(result));
   }
 
+  uploadCoverImage(trail, file) {
+    let trailObj = trail._parseObject;
+    let parseFile = new Parse.File('cover.jpg', file);
+    return parseFile.save().then(
+      (result) => {
+        trailObj.set('headerImage', parseFile);
+        return trailObj.save();
+      },
+      (error) => {
+        console.error('Unable to upload file', error);
+      }
+    );
+  }
+
   updateTrail(trail) {
     let obj = trail._parseObject;
 
@@ -59,7 +73,8 @@ function parseTrailsToObj(result) {
       overviewHtml: r.get('overviewHtml'),
       lastModified: r.get('updatedAt'),
       statusCode: r.get('statusCode'),
-      statusText: statusCodeToText(r.get('statusCode'))
+      statusText: statusCodeToText(r.get('statusCode')),
+      getHeaderImage: () => r.get('headerImage')
     };
   });
 }
