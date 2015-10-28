@@ -1,8 +1,13 @@
 import React from "react";
 import data from "../../data";
+import Session from "../../common/session";
 import TrailCard from "../../components/trail/card";
 import TrailImageHeader from "../../components/trail/imageheader";
+import TrailUpdater from "../../components/trail/updater";
 import Loader from "react-loader";
+import { Card, CardMedia, CardTitle, CardText,
+         CardActions, FlatButton } from "material-ui";
+import TimeAgo from 'react-timeago';
 
 
 export default class TrailPage extends React.Component {
@@ -33,38 +38,56 @@ export default class TrailPage extends React.Component {
     console.error('Error loading trail', error);
   }
 
-  handleUpdateClick() {
+  render() {
     let trail = this.state.trail;
-    trail.conditions = this.refs.conditions.value;
-    trail.statusCode = parseInt(this.refs.statusCode.value, 10);
-    data.updateTrail(trail).then(
-      () => this.reload(),
-      this.handleTrailError.bind(this)
+    return (
+      <Loader loaded={this.state.loaded}>
+        <Card>
+
+          <CardMedia overlay={<CardTitle title={trail.name} subtitle={trail.address} />}>
+            <TrailImageHeader trail={trail} />
+          </CardMedia>
+
+          <CardActions>
+            <FlatButton label="Driving Directions"/>
+            <FlatButton label="Website"/>
+          </CardActions>
+
+          <CardText>
+            <h3>Overview of Mountain Biking at {trail.name}</h3>
+            <p dangerouslySetInnerHTML={{__html: trail.overviewHtml}}></p>
+
+            <h3>Latest Reported Trail Conditions</h3>
+            <p><strong>{trail.statusText}: {trail.conditions}</strong></p>
+            <p>as of <TimeAgo date={trail.lastModified} /> by {trail.lastModifiedBy}</p>
+
+            <h3>Report Updated Conditions</h3>
+            {this.renderUpdater(trail)}
+
+            <h3>Conditions History</h3>
+            <ul>
+              {this.state.history.map((h) => <li key={h.id}>
+                    <TimeAgo date={h.lastModified} /> - {h.statusText}: {h.conditions} by {h.lastModifiedBy}
+                  </li>)}
+            </ul>
+          </CardText>
+
+        </Card>
+      </Loader>
     );
   }
 
-  render() {
-    return (
-      <Loader loaded={this.state.loaded}>
-        <TrailImageHeader trail={this.state.trail} />
-        <p dangerouslySetInnerHTML={{__html: this.state.trail.overviewHtml}}></p>
-        <p>Address: {this.state.trail.address}</p>
-
-        <h3>Update Conditions</h3>
-        <form>
-          Status Code: <input ref="statusCode" defaultValue={this.state.trail.statusCode} />
-          {this.state.trail.statusText}
-          <br />
-          Description: <textarea ref="conditions" defaultValue={this.state.trail.conditions} />
-          <br />
-          <button onClick={this.handleUpdateClick.bind(this)}>Update</button>
-        </form>
-
-        <h3>Trail Conditions History</h3>
-        <ul>
-          {this.state.history.map((h) => <li key={h.id}>{h.lastModified.toString()} - {h.statusText}: {h.conditions}</li>)}
-        </ul>
-      </Loader>
-    );
+  renderUpdater(trail) {
+    if (Session.isLoggedIn()) {
+      return (
+        <TrailUpdater trail={trail} onUpdate={() => this.reload()} />
+      );
+    } else {
+      return (
+        <div>
+          <p>Be a trail steward! Logged in users are able to update the trail conditions to help everyone know when and where to ride.</p>
+        </div>
+      );
+    }
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import Parse from "parse";
 import Session from "../../common/session";
+import { RaisedButton, FontIcon } from "material-ui";
 
 export default class FacebookLogInOut extends React.Component {
 
@@ -16,28 +17,35 @@ export default class FacebookLogInOut extends React.Component {
   render() {
     if (this.state.loggedIn) {
       return (
-        <span>
-          Logged in as {this.state.username}
-          <button onClick={this.logOut.bind(this)}>Log Out</button>
-        </span>
+        <div style={{textAlign:'right'}}>
+          <div style={{fontWeight:'bold'}}>Logged in as {this.state.username}</div>
+          <RaisedButton onClick={this.logOut.bind(this)} label="Sign Out" />
+        </div>
       );
     } else {
       return (
-        <button onClick={this.logInViaFacebook.bind(this)}>Log In</button>
+        <RaisedButton onClick={this.logInViaFacebook.bind(this)} label="Login Via Facebook">
+          <FontIcon className="muidocs-icon-custom-github"/>
+        </RaisedButton>
       );
     }
   }
 
   logInViaFacebook() {
+    // XXX: after login, doing a full page reload to avoid hacking around state
+    // in all the child components.
     Parse.FacebookUtils.logIn('public_profile,email', {
       success: (user) => {
         if (!user.existed()) {
           //console.log("User signed up and logged in through Facebook!");
-          this.initializeNewUser(Parse.User.current());
+          this.initializeNewUser(Parse.User.current()).then(
+            () => window.location.reload(),
+            (error) => alert('Sorry, we were unable to log you in. Please refresh and tray again.')
+          );
         } else {
           //console.log("User logged in through Facebook!");
-          this.setState({loggedIn: true, username: Session.username()}); 
-          this.initializeNewUser(Parse.User.current());
+          //this.setState({loggedIn: true, username: Session.username()}); 
+          window.location.reload();
         }
       },
       error: (user, error) => {
@@ -48,14 +56,18 @@ export default class FacebookLogInOut extends React.Component {
   }
 
   initializeNewUser(user) {
+    let fbPromise = new Promise();
+
     // Get real name from Facebook (not crazy ass scrambled token)
     FB.api('/me?fields=name,email', (response) => {
       user.save(
         {username: response.name, email: response.email}, {
         success: () => {
           this.setState({loggedIn: true, username: Session.username()}); 
+          fbPromise.resolve();
         },
         error: (error) => {
+          fbPromise.reject();
         }
       })
     });
@@ -63,7 +75,7 @@ export default class FacebookLogInOut extends React.Component {
     // Set ACL to allow user to update trails
     let query = new Parse.Query(Parse.Role);
     query.equalTo("name", "AuthenticatedUsers");
-    query.first().then(
+    let parsePromise = query.first().then(
       (object) => {
         object.relation("users").add(user);
         object.save();
@@ -72,12 +84,17 @@ export default class FacebookLogInOut extends React.Component {
         throw "Got an error " + error.code + " : " + error.message;
       }
     );
+
+    return Promise.all([fbPromise, parsePromise]);
   }
 
   logOut() {
+    // XXX: after login, doing a full page reload to avoid hacking around state
+    // in all the child components.
     //console.log('Logging out');
     Parse.User.logOut();
-    this.setState({loggedIn: false}); 
+    //this.setState({loggedIn: false});
+    window.location.reload();
   }
 
 }
