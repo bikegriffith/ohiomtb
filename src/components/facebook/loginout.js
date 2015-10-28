@@ -15,18 +15,22 @@ export default class FacebookLogInOut extends React.Component {
   }
 
   render() {
+    let textStyle = {fontWeight:'bold',fontSize:'10pt',color:'#eee',margin:'3px 0 5px'};
     if (this.state.loggedIn) {
       return (
         <div style={{textAlign:'right'}}>
-          <div style={{fontWeight:'bold'}}>Logged in as {this.state.username}</div>
+          <div style={textStyle}>Signed in as {this.state.username}</div>
           <RaisedButton onClick={this.logOut.bind(this)} label="Sign Out" />
         </div>
       );
     } else {
       return (
-        <RaisedButton onClick={this.logInViaFacebook.bind(this)} label="Login Via Facebook">
-          <FontIcon className="muidocs-icon-custom-github"/>
-        </RaisedButton>
+        <div style={{textAlign:'right'}}>
+          <div style={textStyle}>Not Signed In</div>
+          <RaisedButton secondary={true} onClick={this.logInViaFacebook.bind(this)} label="Sign In via Facebook">
+            <i className="fa fa-facebook" style={{marginRight:'15px'}} />
+          </RaisedButton>
+        </div>
       );
     }
   }

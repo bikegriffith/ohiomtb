@@ -10,7 +10,9 @@ export default class MainShell extends React.Component {
         <header>
           <AppBar title={<h1><Link to="/">OhioMTB</Link></h1>}
                   showMenuIconButton={false}
-                  iconElementRight={<FacebookLogInOut />} />
+                  iconElementRight={<FacebookLogInOut />}
+                  style={{backgroundColor:'#4E735D'}}
+                  />
         </header>
         {this.props.children}
       </div>
