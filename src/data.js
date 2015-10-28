@@ -94,7 +94,7 @@ function parseTrailsToObj(result) {
       conditions: r.get('conditions'),
       overviewHtml: r.get('overviewHtml'),
       lastModified: r.get('updatedAt'),
-      lastModifiedBy: r.get('updatedByUsername'),
+      lastModifiedBy: r.get('updatedByUsername') || 'Anonymous',
       statusCode: r.get('statusCode'),
       statusText: statusCodeToText(r.get('statusCode')),
       address: r.get('address'),
@@ -113,7 +113,7 @@ function parseTrailHistoryToObj(result) {
       slug: r.get('slug'),
       conditions: r.get('conditions'),
       lastModified: r.get('updatedAt'),
-      lastModifiedBy: r.get('updatedByUsername'),
+      lastModifiedBy: r.get('updatedByUsername') || 'Anonymous',
       statusCode: r.get('statusCode'),
       statusText: statusCodeToText(r.get('statusCode'))
     };

@@ -31,11 +31,11 @@ export default class HomePage extends React.Component {
     return (
       <div className={styles.content}>
         <h1>{title}</h1>
-        <FacebookLikeBox />
         <p className={styles.welcomeText}>All Trails:</p>
-        <ul>
+        <ul className="trailList">
             {this.state.trails.map((t) => this.renderTrail(t))}
         </ul>
+        <FacebookLikeBox />
       </div>
     );
   }

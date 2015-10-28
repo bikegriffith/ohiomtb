@@ -3,11 +3,12 @@ import React from 'react';
 export default class FacebookLikeBox extends React.Component {
   render() {
     let style = {
-      border:'1px solid #111',
-      borderRadius: '4px',
-      backgroundColor: '#333',
-      padding: '10px',
-      height:'50px',
+      margin:'15px',
+      //border:'1px solid #111',
+      //borderRadius: '4px',
+      //backgroundColor: '#333',
+      //padding: '10px',
+      //height:'50px',
       //overflow:'hidden',
       //width:'200px',
       //position:'absolute',

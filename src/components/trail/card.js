@@ -23,9 +23,11 @@ export default class TrailCard extends React.Component {
       <Link to={"/trails/" + trail.slug}>
         <img title={"Trail conditions are " + trail.statusText}
              src={"/assets/img/statuses/" + trail.statusCode + ".png"} />
-        <h2>{trail.name}</h2>
-        <p>{trail.conditions}</p>
-        <p><TimeAgo date={trail.lastModified} /></p>
+        <aside>
+          <h2>{trail.name}</h2>
+          <p className="conditions">{trail.conditions}</p>
+          <p className="lastModified"><TimeAgo date={trail.lastModified} /></p>
+        </aside>
       </Link>
     );
   }
@@ -36,9 +38,13 @@ export default class TrailCard extends React.Component {
       <Link to={"/trails/" + trail.slug}>
         <img alt="Status is too old, needs an update"
              src={"/assets/img/statuses/old.png"} />
-        <h2>{trail.name}</h2>
-        <p>&nbsp;</p>
-        <p><TimeAgo date={trail.lastModified} /></p>
+        <aside>
+          <h2>{trail.name}</h2>
+          <p className="conditions old">
+           <em>Trail status has not been recently updated. Click here to help.</em>
+          </p>
+          <p className="lastModified"><TimeAgo date={trail.lastModified} /></p>
+        </aside>
       </Link>
     );
   }
