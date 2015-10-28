@@ -86,7 +86,6 @@ class Data {
 
 function parseTrailsToObj(result) {
   return result.map((r) => {
-    console.log(r.get('user'));
     return {
       _parseObject: r,
       id: r.id,
