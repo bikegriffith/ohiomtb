@@ -4,6 +4,7 @@ import Session from "../../common/session";
 import TrailCard from "../../components/trail/card";
 import TrailImageHeader from "../../components/trail/imageheader";
 import TrailUpdater from "../../components/trail/updater";
+import TrailStatusImage from '../../components/trail/statusimage';
 import Loader from "react-loader";
 import { Card, CardMedia, CardTitle, CardText,
          CardActions, FlatButton } from "material-ui";
@@ -51,20 +52,22 @@ export default class TrailPage extends React.Component {
           <CardActions>
             <FlatButton label="Driving Directions"/>
             <FlatButton label="Website"/>
+            {this.renderUpdater(trail)}
           </CardActions>
 
           <CardText>
-            <h3>Overview of Mountain Biking at {trail.name}</h3>
-            <p dangerouslySetInnerHTML={{__html: trail.overviewHtml}}></p>
+            <div style={{float:'right'}}>
+              <TrailStatusImage trail={trail} style={{width:'155px'}} />
+            </div>
 
             <h3>Latest Reported Trail Conditions</h3>
-            <p><strong>{trail.statusText}: {trail.conditions}</strong></p>
+            <p style={{whiteSpace:'pre-wrap'}}><strong>{trail.statusText}: {trail.conditions}</strong></p>
             <p>as of <TimeAgo date={trail.lastModified} /> by {trail.lastModifiedBy}</p>
 
-            <h3>Report Updated Conditions</h3>
-            {this.renderUpdater(trail)}
+            <h3 style={{marginTop:'40px'}}>Overview of Mountain Biking at {trail.name}</h3>
+            <p dangerouslySetInnerHTML={{__html: trail.overviewHtml}}></p>
 
-            <h3>Conditions History</h3>
+            <h3 style={{marginTop:'40px'}}>Historical Conditions</h3>
             <ul>
               {this.state.history.map((h) => <li key={h.id}>
                     <TimeAgo date={h.lastModified} /> - {h.statusText}: {h.conditions} by {h.lastModifiedBy}
@@ -84,9 +87,8 @@ export default class TrailPage extends React.Component {
       );
     } else {
       return (
-        <div>
-          <p>Be a trail steward! Logged in users are able to update the trail conditions to help everyone know when and where to ride.</p>
-        </div>
+        <p><em>Be a trail steward! Logged in users are able to update
+        the trail conditions to help everyone know when and where to ride.</em></p>
       );
     }
   }

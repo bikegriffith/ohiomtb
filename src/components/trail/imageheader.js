@@ -54,7 +54,6 @@ export default class TrailImageHeader extends React.Component {
     );
   }
 
-  
   handleUploadClick() {
     const ctrl = this.refs.imageUploader
     if (ctrl.files.length > 0) {

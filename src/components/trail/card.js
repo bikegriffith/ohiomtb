@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from "react-router";
+import { Link } from 'react-router';
 import TimeAgo from 'react-timeago';
+import TrailStatusImage from './statusimage';
 
 
 export default class TrailCard extends React.Component {
@@ -21,8 +22,7 @@ export default class TrailCard extends React.Component {
     const trail = this.props.trail;
     return (
       <Link to={"/trails/" + trail.slug}>
-        <img title={"Trail conditions are " + trail.statusText}
-             src={"/assets/img/statuses/" + trail.statusCode + ".png"} />
+        <TrailStatusImage trail={trail} />
         <aside>
           <h2>{trail.name}</h2>
           <p className="conditions">{trail.conditions}</p>
@@ -36,8 +36,7 @@ export default class TrailCard extends React.Component {
     const trail = this.props.trail;
     return (
       <Link to={"/trails/" + trail.slug}>
-        <img alt="Status is too old, needs an update"
-             src={"/assets/img/statuses/old.png"} />
+        <TrailStatusImage trail={trail} />
         <aside>
           <h2>{trail.name}</h2>
           <p className="conditions old">
