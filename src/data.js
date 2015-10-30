@@ -98,7 +98,7 @@ function parseTrailsToObj(result) {
       statusCode: r.get('statusCode'),
       statusText: statusCodeToText(r.get('statusCode')),
       address: r.get('address'),
-      urls: r.get('urls'),
+      urls: r.get('urls') || [],
       getHeaderImage: () => r.get('headerImage')
     };
   });

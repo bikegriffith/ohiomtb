@@ -20,7 +20,7 @@ export default class TrailUpdater extends React.Component {
     ];
 
     return (
-      <span>
+      <span style={{position:'relative',top:'-12px'}}>
         <FlatButton onClick={() => this.refs.updateDialog.show()} label="Update Trail Conditions" />
         <Dialog
             ref="updateDialog"

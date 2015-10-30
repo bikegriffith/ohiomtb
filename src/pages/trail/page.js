@@ -41,6 +41,7 @@ export default class TrailPage extends React.Component {
 
   render() {
     let trail = this.state.trail;
+    let urls = trail.urls || [];
     return (
       <Loader loaded={this.state.loaded}>
         <Card>
@@ -50,8 +51,20 @@ export default class TrailPage extends React.Component {
           </CardMedia>
 
           <CardActions>
-            <FlatButton label="Driving Directions"/>
-            <FlatButton label="Website"/>
+            <FlatButton
+                label="Driving Directions"
+                linkButton={true}
+                href={'http://maps.google.com/maps?daddr=' + trail.address}
+                target="_blank"
+                />
+            {urls.map((url) => (
+              <FlatButton
+                  label={url.name}
+                  linkButton={true}
+                  href={url.link}
+                  target="_blank"
+                  />
+            ))}
             {this.renderUpdater(trail)}
           </CardActions>
 
