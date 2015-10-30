@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    background-color: #f1f1f1;
+}
+
+h1 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+:global(#container) {
+    width: 100%;
+
+    @media (min-width: 960px) {
+        width: 960px;
+        margin: 0 auto;
+    }
+}
+
+:global(.trailheader) {
+    background-color: #333;
+    background-size: cover;
+    min-height: 200px;
+    h1 {
+        color: #ffffff;
+        font-weight: bold;
+        text-shadow: 0 0 6px rgba(0,0,0,0.5);
+        margin: 0 15px;
+        padding-top: 15px;
+    }
+}
+
+:global(.trailList) {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+
+    /* Desktop view */
+    @media (min-width: 960px) {
+        li {
+            margin:15px; padding:0;
+            float: left;
+            max-width: 290px;
+        }
+        a {
+            position:relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+        aside {
+            display:block;
+            position:absolute;
+            bottom:0;
+            left:0;
+            right:0;
+            background:rgba(0,0,0,0.5);
+            padding:15px 15px 5px 25px;
+        }
+        img {
+            max-width: 100%;
+        }
+        h2 {
+            font-size:12pt;
+            font-weight:bold;
+            margin:0;
+            padding:0;
+        }
+        :global(.conditions) {
+            font-size:10pt;
+        }
+        :global(.lastModified) {
+            font-size:8pt;
+        }
+    }
+
+    /* Mobile view */
+    @media (min-width: 0) and (max-width: 959px) {
+        li {
+            margin:15px; padding:0;
+            background:rgba(0,0,0,0.8);
+        }
+        a {
+            position:relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+        aside {
+            display:inline-block;
+            width:calc(100vw - 75px - 30px);
+            padding:6px;
+            vertical-align:top;
+        }
+        img {
+            display:inline-block;
+            width:63px;
+            margin:6px;
+        }
+        h2 {
+            font-size:12pt;
+            font-weight:bold;
+            margin:0;
+            padding:0;
+        }
+        :global(.conditions) {
+            font-size:10pt;
+        }
+        :global(.lastModified) {
+            font-size:8pt;
+        }
+    }
+}
