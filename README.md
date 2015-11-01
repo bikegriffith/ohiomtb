@@ -20,7 +20,6 @@ To get started developing, clone the repository and set up your local dev enviro
 
 ```
 git clone https://github.com/bikegriffith/ohiomtb.git
-git checkout react-parse-rewrite
 npm install
 npm start
 open http://localhost:8080/
